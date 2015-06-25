@@ -1,0 +1,14 @@
+---
+   - hosts: node*
+     sudo: true
+     tasks:
+       - name: update apt cache
+         apt: update_cache=yes
+       - name: install useful packages
+         apt: name={{ item }} state=present
+         with_items:
+          - nginx
+          - curl
+          - vim
+          - python-pip
+
