@@ -11,4 +11,6 @@
           - curl
           - vim
           - python-pip
+       - name: install requests lib for python
+         command: pip install requests
 

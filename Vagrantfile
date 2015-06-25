@@ -12,6 +12,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "precise64"
   config.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
+  config.vm.define "service-discovery" do |disc|
+    disc.vm.hostname = "service-discovery"
+    disc.vm.network "private_network", ip: "192.168.50.1"
+    disc.vm.provision "ansible" do |ansible|
+      ansible.playbook = "provision/service-discovery.yml"
+    end
+  end
+
   (1..NUM_NODES).each do |i|
     config.vm.define "node#{i}" do |node|
       node.vm.hostname = "node#{i}"

@@ -1,0 +1,11 @@
+---
+   - hosts: service-discovery
+     sudo: true
+     tasks:
+       - name: update apt cache
+         apt: update_cache=yes
+       - name: copy over required install files
+         synchronize: src=src/etcd-install.sh dest=/opt
+         synchronize: src=src/etcd dest=/etc/init.d
+       - name: install etcd and activate
+         

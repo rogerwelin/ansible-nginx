@@ -4,11 +4,10 @@
 # chkconfig: 2345 20 80
 # description: Starts and stops etcd
  
-. /etc/init.d/functions
  
 prog="etcd"
-ETCD_BIN=$(which etcd 2> /dev/null)
-prog=$(basename "$ETCD_BIN")
+ETCD_BIN="/usr/local/bin/etcd"
+#prog=$(basename "$ETCD_BIN")
 desc="etcd shared configuration and service discovery daemon"
  
 if [[ ! -e $ETCD_BIN ]]; then
@@ -19,8 +18,8 @@ fi
 ETCD_LOCKFILE="/var/lock/subsys/$prog"
 ETCD_LOGFILE=/var/log/etcd/etcd.log
 ETCD_PIDFILE=/var/run/etcd.pid
-ETCD_CONFIG=/etc/etcd.conf
-ETCD_EXEC="$ETCD_BIN -config $ETCD_CONFIG"
+#ETCD_CONFIG=/etc/etcd.conf
+ETCD_EXEC="$ETCD_BIN -addr=0.0.0.0:4001"
  
 start() {
   started=$(status -p "$ETCD_PIDFILE" "$ETCD_BIN")
