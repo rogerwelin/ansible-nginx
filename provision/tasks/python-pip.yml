@@ -1,0 +1,3 @@
+---
+- name: keep calmn and install pip
+  apt: name=python-pip state=present

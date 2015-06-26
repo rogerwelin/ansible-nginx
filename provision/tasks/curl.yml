@@ -1,0 +1,4 @@
+---
+- name: keep calmn and install curl
+  apt: name=curl state=present
+

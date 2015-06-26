@@ -5,12 +5,19 @@
      tasks:
        - name: update apt cache
          apt: update_cache=yes
-       - name: install curl
-         apt: name=curl state=present
+       - include: tasks/curl.yml
        - name: copy over etcd install script
          synchronize: src=src/etcdinstall.sh dest=/tmp
        - name: copy etcd start script
          synchronize: src=src/etcd dest=/tmp
        - name: run install script
          command: /tmp/etcdinstall.sh
-         
+       - name: run install script
+         command: /tmp/etcdinstall.sh
+       - name: move init script
+         command: mv /tmp/etcd /etc/init.d/etcd
+       - name: chkconfig 
+         command: update-rc.d etcd defaults
+       - name: start etcd
+         command: service etcd start
+ 
