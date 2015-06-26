@@ -5,7 +5,7 @@
 VAGRANTFILE_API_VERSION = "2"
 
 # Set the number of webserver nodes below
-NUM_NODES = 2
+NUM_NODES = 3
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
@@ -30,9 +30,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  config.vm.define "lbnode" do |lb|
+  config.vm.define "lbcore" do |lb|
     lb.vm.hostname = "lbcore"
     lb.vm.network "private_network", type: "dhcp"
+    lb.vm.network "forwarded_port", guest: 80, host: 9999
     lb.vm.provision "ansible" do |ansible|
       ansible.playbook = "provision/lb.yml"
     end

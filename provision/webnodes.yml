@@ -1,16 +1,20 @@
 ---
    - hosts: node*
      sudo: true
+     sudo_user: root
      tasks:
        - name: update apt cache
          apt: update_cache=yes
-       - name: install useful packages
-         apt: name={{ item }} state=present
-         with_items:
-          - nginx
-          - curl
-          - vim
-          - python-pip
-       - name: install requests lib for python
-         command: pip install requests
-
+       - include: tasks/nginx.yml
+       - include: tasks/curl.yml
+       - include: tasks/vim.yml
+       - name: etcd register script
+         synchronize: src=src/register.sh dest=/tmp/
+       - name: copy nginx html template
+         template: 
+           src=templates/index.html.j2 
+           dest=/usr/share/nginx/www/index.html
+       - name: restart nginx
+         service: name=nginx state=restarted
+       - name: register webnode to service-discovery
+         command: /tmp/register.sh
