@@ -14,7 +14,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define "service-discovery" do |disc|
     disc.vm.hostname = "service-discovery"
-    disc.vm.network "private_network", ip: "192.168.50.1"
+    disc.vm.network "private_network", ip: "192.168.50.99"
     disc.vm.provision "ansible" do |ansible|
       ansible.playbook = "provision/service-discovery.yml"
     end
@@ -31,8 +31,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define "lbnode" do |lb|
-    lb.vm.hostname = "lbnode"
+    lb.vm.hostname = "lbcore"
     lb.vm.network "private_network", type: "dhcp"
+    lb.vm.provision "ansible" do |ansible|
+      ansible.playbook = "provision/lb.yml"
+    end
   end
   
 end
